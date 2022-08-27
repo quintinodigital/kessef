@@ -17,7 +17,7 @@ create table tb_pessoa(
 );
 
 /*
-    Gerenciador de Conta Banc·ria
+    Gerenciador de Conta Banc√°ria
 */
 
 drop table if exists tb_instituicao_bancaria cascade;
@@ -43,7 +43,7 @@ create table tb_conta_bancaria(
     numero_agencia varchar(4) unique not null,
     numero_conta varchar(100) unique not null,
     data_abertura date not null,
-    data_encerramento date not null,
+    data_ecenrramento date null,
     saldo double precision not null,
     data_atualizacao date not null,
     usuario_atualizacao varchar(100) not null,
@@ -53,7 +53,7 @@ create table tb_conta_bancaria(
 );
 
 /*
-    Gerenciador de Cart„o Banc·rio
+    Gerenciador de Cart√£o Banc√°rio
 */
 
 drop table if exists tb_funcao_cartao_bancario cascade;
@@ -66,12 +66,20 @@ drop table if exists tb_cartao_bancario cascade;
 create table tb_cartao_bancario(
     codigo serial primary key,
     id_conta_bancaria integer not null,
-    id_funcao_cartao_bancario integer not null,
-    data_recebimento date not null,
-    data_liberacao date not null,
+    data_recebimento date null,
+    data_liberacao date null,
     data_expiracao date not null,
     limite double precision not null,
-    dia_vencimento date not null,
-    foreign key (id_conta_bancaria) references tb_conta_bancaria (codigo),
+    dia_vencimento integer not null,
+    foreign key (id_conta_bancaria) references tb_conta_bancaria (codigo)
+);
+
+drop table if exists tb_cartao_bancario_funcao cascade;
+create table tb_cartao_bancario_funcao(
+    codigo serial primary key,
+    id_cartao_bancario integer not null,
+    id_funcao_cartao_bancario integer not null,
+    foreign key (id_cartao_bancario) references tb_cartao_bancario (codigo),
     foreign key (id_funcao_cartao_bancario) references tb_funcao_cartao_bancario (codigo)
 );
+
