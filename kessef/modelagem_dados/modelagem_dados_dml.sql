@@ -66,3 +66,27 @@ insert into tb_cartao_bancario_funcao(id_cartao_bancario, id_funcao_cartao_banca
     (select codigo from tb_cartao_bancario where data_expiracao = '2027-01-01'),
     (select codigo from tb_funcao_cartao_bancario where descricao = 'DÃ©bito')
 );
+
+/*
+    Gerenciador de Acessos
+*/
+
+-- select * from tb_tipo_acesso;
+delete from tb_tipo_acesso where codigo is not null;
+insert into tb_tipo_acesso(descricao) values('Aplicativo');
+insert into tb_tipo_acesso(descricao) values('Operação Bancária');
+insert into tb_tipo_acesso(descricao) values('Web Site');
+
+-- select * from tb_acesso;
+delete from tb_acesso where codigo is not null;
+insert into tb_acesso(id_pessoa_responsavel, id_tipo_acesso, descricao_acesso, descricao_metodo_recuperacao_acesso, descricao_identificador_recuperacao_acesso, url, data_criacao, data_expiracao, chave_alfanumerica) values(
+    (select codigo from tb_pessoa where nome = 'José Quintino'),
+    (select codigo from tb_tipo_acesso where descricao like 'Aplicativo'),
+    'Aplicativo Banco do Brasil',
+    null,
+    null,
+    null,
+    '2022-01-01',
+    null,
+    sha256('senha_aplicativo')
+);

@@ -83,3 +83,28 @@ create table tb_cartao_bancario_funcao(
     foreign key (id_funcao_cartao_bancario) references tb_funcao_cartao_bancario (codigo)
 );
 
+/*
+    Gerenciador de Acessos
+*/
+
+drop table if exists tb_tipo_acesso cascade;
+create table tb_tipo_acesso(
+    codigo serial primary key,
+    descricao varchar(100) unique not null
+);
+
+drop table if exists tb_acesso cascade;
+create table tb_acesso(
+    codigo serial primary key,
+    id_pessoa_responsavel integer not null,
+    id_tipo_acesso integer not null,
+    descricao_acesso varchar(100) null,
+    descricao_metodo_recuperacao_acesso varchar(100) null,
+    descricao_identificador_recuperacao_acesso varchar(100) null,
+    url varchar(100) null,
+    data_criacao date not null,
+    data_expiracao date null,
+    chave_alfanumerica varchar(100) not null,
+    foreign key (id_pessoa_responsavel) references tb_pessoa (codigo),
+    foreign key (id_tipo_acesso) references tb_tipo_acesso (codigo)
+);
